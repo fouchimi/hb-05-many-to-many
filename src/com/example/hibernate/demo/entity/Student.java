@@ -1,12 +1,18 @@
 package com.example.hibernate.demo.entity;
 
 import java.util.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 import com.example.hibernate.demo.DateUtils;
@@ -25,8 +31,6 @@ public class Student {
 		this.email = email;
 	}
 	
-	
-
 	public Student(String firstName, String lastName, String email, Date dateOfBirth) {
 		super();
 		this.firstName = firstName;
@@ -34,8 +38,6 @@ public class Student {
 		this.email = email;
 		this.dateOfBirth = dateOfBirth;
 	}
-
-
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -59,8 +61,17 @@ public class Student {
 	@Column(name="email")
 	private String email;
 	
-	@Column(name="dob")
+	//@Column(name="dob")
 	private Date dateOfBirth;
+	
+	@ManyToMany(fetch=FetchType.LAZY, cascade= {CascadeType.PERSIST, 
+			CascadeType.MERGE, 
+			CascadeType.DETACH,
+			CascadeType.REFRESH})
+	@JoinTable(name="course_student",
+	 joinColumns=@JoinColumn(name="student_id"),
+	 inverseJoinColumns=@JoinColumn(name="course_id"))
+	private List<Course> courses;
 
 	public String getFirstName() {
 		return firstName;
@@ -93,6 +104,15 @@ public class Student {
 
 	public void setDateOfBirth(Date dateOfBirth) {
 		this.dateOfBirth = dateOfBirth;
+	}
+	
+
+	public List<Course> getCourses() {
+		return courses;
+	}
+
+	public void setCourses(List<Course> courses) {
+		this.courses = courses;
 	}
 
 	@Override
