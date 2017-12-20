@@ -10,7 +10,7 @@ import com.example.hibernate.demo.entity.Instructor;
 import com.example.hibernate.demo.entity.InstructorDetail;
 import com.example.hibernate.demo.entity.Review;
 
-public class CreateCourseAndReviewDemo {
+public class CreateCourseAndReviewsDemo {
 
 	public static void main(String[] args) {
         
